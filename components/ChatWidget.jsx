@@ -54,82 +54,103 @@ export default function ChatWidget() {
     }
   };
 
-  const charCount = input.length;
-  const maxChars = 1000;
-
   return (
     <>
       {/* Floating Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-40 px-6 py-3 bg-white hover:bg-gray-50 text-gray-900 shadow-lg font-medium text-sm transition-all duration-200 border border-gray-200"
+        style={{ padding: "16px 24px", gap: "16px" }}
+        className="fixed bottom-6 right-6 z-40 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md shadow-lg flex items-center"
       >
-        <svg className="inline-block w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
-        Chat with RG
+        <span className="text-base font-medium whitespace-nowrap">Chat with RG</span>
       </button>
 
       {/* Chat Panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-40 w-96 h-[600px] bg-gray-900 shadow-2xl border border-gray-800 flex flex-col overflow-hidden">
+        <div className="fixed bottom-20 right-6 z-40 w-96 h-[580px] bg-neutral-900 shadow-2xl flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="px-6 py-5 border-b border-gray-800 bg-gray-950 flex items-center justify-between">
-            <div className="flex items-center gap-4 flex-1">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
-                RG
+          <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">RG</span>
               </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-white font-semibold text-sm">Chat with RG</h2>
-                <p className="text-xs text-green-400 flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-400"></span>
-                  Online
-                </p>
+              <div>
+                <h2 className="text-white font-bold">Chat with RG</h2>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 bg-green-500"></span>
+                  <span className="text-green-500 text-xs">Online</span>
+                </div>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="text-gray-400 hover:text-white transition-colors flex-shrink-0 p-1"
+              className="text-zinc-400 hover:text-white p-1"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-5 space-y-4">
+          <div className="flex-1 overflow-y-auto px-6 py-6">
             {messages.length === 0 && !loading && (
-              <div className="text-center text-gray-500 py-16">
-                <p className="text-sm">Start a conversation with RG's AI assistant</p>
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-full bg-slate-600 flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">RG</span>
+                  </div>
+                  <span className="text-zinc-400 text-xs">RG Mazon</span>
+                </div>
+                <div className="ml-9 border-l-2 border-cyan-500 bg-zinc-800 px-5 py-4">
+                  <p className="text-white text-sm leading-relaxed">
+                    Hi there! 👋 Thanks for visiting my website. Feel free to ask me anything about programming, web development, or my experiences in tech. Let me know how I can help!
+                  </p>
+                </div>
               </div>
             )}
-            
+
             {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[70%] px-4 py-3 text-sm leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-800 text-gray-100"
-                  }`}
-                >
-                  {msg.text}
-                </div>
+              <div key={i} className="mb-6">
+                {msg.role === "ai" ? (
+                  <>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-full bg-slate-600 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">RG</span>
+                      </div>
+                      <span className="text-zinc-400 text-xs">RG Mazon</span>
+                    </div>
+                    <div className="ml-9 border-l-2 border-cyan-500 bg-zinc-800 px-5 py-4">
+                      <p className="text-white text-sm leading-relaxed">{msg.text}</p>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex justify-end">
+                    <div className="bg-blue-600 px-5 py-4 max-w-[80%]">
+                      <p className="text-white text-sm">{msg.text}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
             {loading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-800 text-gray-400 px-4 py-3">
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 bg-gray-600 animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-600 animate-bounce" style={{ animationDelay: "0.1s" }}></div>
-                    <div className="w-2 h-2 bg-gray-600 animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-full bg-slate-600 flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">RG</span>
                   </div>
+                  <span className="text-zinc-400 text-xs">RG Mazon</span>
+                </div>
+                <div className="ml-9 border-l-2 border-cyan-500 bg-zinc-800 px-5 py-4 flex items-center gap-2">
+                  <svg className="w-4 h-4 animate-spin text-zinc-400" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span className="text-zinc-400 text-sm">Typing...</span>
                 </div>
               </div>
             )}
@@ -137,33 +158,30 @@ export default function ChatWidget() {
           </div>
 
           {/* Input */}
-          <div className="px-5 py-4 border-t border-gray-800 bg-gray-950">
-            <div className="flex items-end gap-3 mb-3">
+          <div className="px-6 py-5 border-t border-zinc-800">
+            <div className="flex items-center gap-3 mb-4">
               <input
                 type="text"
                 value={input}
-                onChange={(e) => {
-                  if (e.target.value.length <= maxChars) {
-                    setInput(e.target.value);
-                  }
-                }}
+                onChange={(e) => setInput(e.target.value.slice(0, 1000))}
                 onKeyDown={handleKeyDown}
                 placeholder="Type a message..."
-                className="flex-1 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                maxLength={1000}
+                className="flex-1 bg-transparent text-white placeholder-zinc-500 text-sm px-4 py-3 border border-zinc-600 focus:outline-none"
               />
               <button
                 onClick={sendMessage}
                 disabled={loading || !input.trim()}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white px-4 py-3 transition-colors text-sm font-medium flex items-center justify-center flex-shrink-0"
+                className="w-10 h-10 bg-zinc-700 hover:bg-zinc-600 disabled:bg-zinc-800 disabled:text-zinc-600 text-white flex items-center justify-center"
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5.951-2.965 5.951 2.965a1 1 0 001.169-1.409l-7-14z" />
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </button>
             </div>
-            <div className="flex justify-between items-center text-xs text-gray-500 px-1">
-              <p>Ask about programming, web dev, or tech!</p>
-              <p>{charCount}/{maxChars}</p>
+            <div className="flex items-center justify-between">
+              <span className="text-zinc-500 text-xs">Ask me about programming, web dev, or tech!</span>
+              <span className="text-zinc-500 text-xs">{input.length}/1000</span>
             </div>
           </div>
         </div>

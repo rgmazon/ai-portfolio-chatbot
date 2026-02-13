@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 html,
 body {
   height: 100%;
@@ -13,4 +7,13 @@ body {
     Ubuntu, Cantarell, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Don't reset padding/margin globally - let Tailwind handle spacing */
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, blockquote {
+  margin: 0;
+}
+
+button {
+  padding: 0;
 }
